@@ -20,12 +20,21 @@
 // })
 // server.listen(3000);
 
+
+
 const express = require('express');
 const app=express();
+const morgan=require('morgan');
+app.use(morgan('dev'));
+app.set('view engine','ejs');
+
+app.use(express.json())
+app.use(express.urlencoded({extended:true}))
+
 
 app.get('/',(req,res)=>
 {
-    res.send('Welcome to our home page');
+    res.render('index'); 
 })
 app.get('/about',(req,res)=>
 {
@@ -40,5 +49,11 @@ app.get('/profile',(req,res)=>
     res.send('Welcome to our profile page');
 })
 
+app.post('/submit',(req,res)=>
+{
+  console.log(req.body);
+  res.send('data received')
+  
+})
 
 app.listen(3000);
