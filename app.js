@@ -19,9 +19,8 @@
 //     }
 // })
 // server.listen(3000);
-
-
-
+const User=require('./models/user');
+const db=require('./config/db');
 const express = require('express');
 const app=express();
 const morgan=require('morgan');
@@ -30,11 +29,23 @@ app.set('view engine','ejs');
 
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
-
+app.use(express.static('public'))
 
 app.get('/',(req,res)=>
 {
     res.render('index'); 
+})
+app.post('/',async(req,res)=>
+{
+    const { username , email , password } = req.body;
+    await User.create(
+        {
+            username:username,
+            email:email,
+            password:password,
+        }
+    )
+    res.send('user register ho gaya hai jalssa karo');
 })
 app.get('/about',(req,res)=>
 {
@@ -47,6 +58,24 @@ app.get('/contact',(req,res)=>
 app.get('/profile',(req,res)=>
 {
     res.send('Welcome to our profile page');
+})
+
+app.get('/register',(req,res)=>
+{
+    res.render('register');
+})
+
+app.post('/register',async (req,res)=>
+{
+    const { username , email , password } = req.body;
+    await User.create(
+        {
+            username:username,
+            email:email,
+            password:password,
+        }
+    )
+    res.send('user register')
 })
 
 app.post('/submit',(req,res)=>
