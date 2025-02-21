@@ -35,18 +35,6 @@ app.get('/',(req,res)=>
 {
     res.render('index'); 
 })
-app.post('/',async(req,res)=>
-{
-    const { username , email , password } = req.body;
-    await User.create(
-        {
-            username:username,
-            email:email,
-            password:password,
-        }
-    )
-    res.send('user register ho gaya hai jalssa karo');
-})
 app.get('/about',(req,res)=>
 {
     res.send('Welcome to our about page');
@@ -60,6 +48,9 @@ app.get('/profile',(req,res)=>
     res.send('Welcome to our profile page');
 })
 
+
+//adding user to DB
+
 app.get('/register',(req,res)=>
 {
     res.render('register');
@@ -68,6 +59,8 @@ app.get('/register',(req,res)=>
 app.post('/register',async (req,res)=>
 {
     const { username , email , password } = req.body;
+    if(!User.findOne({email:email}))
+    {
     await User.create(
         {
             username:username,
@@ -76,13 +69,47 @@ app.post('/register',async (req,res)=>
         }
     )
     res.send('user register')
+   }
+   else{
+    res.send('user already exist');
+   }
 })
 
-app.post('/submit',(req,res)=>
+// Reading user from database
+
+app.get('/users-Data',(req,res)=>
 {
-  console.log(req.body);
-  res.send('data received')
-  
+    try
+    {
+    User.find({email:'amp8799@gmail.com'}).then((user)=>
+    {
+        res.send(user)
+    })
+}
+catch(err)
+{
+    res.send(err);
+}
 })
+
+// update user from database
+app.get('/update-user',async(req,res)=>
+    {
+        await User.findOneAndUpdate({email:'abcdefg@gamil.com'},{email:'abcdefg@gmail.com'}).then((user)=>
+        {
+           console.log("user updated");
+           res.send(user)
+        })
+        
+    })
+
+app.get('/delete-user',async(req,res)=>
+{
+    await User.findOneAndDelete({email:'amp1234@gamsil.com'}).then((user)=>
+    {
+      res.send(user);
+    })
+})
+
 
 app.listen(3000);
