@@ -20,6 +20,7 @@
   "homepage": "https://github.com/Aryanpatel8799/Backend#readme",
   "dependencies": {
     "cat-me": "^1.0.3",
+    "ejs": "^3.1.10",
     "express": "^4.21.2"
   }
 }
