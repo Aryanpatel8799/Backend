@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/Aryanpatel8799/Backend#readme",
   "dependencies": {
-    "cat-me": "^1.0.3"
+    "cat-me": "^1.0.3",
+    "express": "^4.21.2"
   }
 }
